@@ -18,7 +18,10 @@ const ResetPassword = () => {
             />
           </div>
           <div className="col-lg-6 md:pt-[50px]">
-            <div className="flex flex-col max-w-[500px]">
+            <div className="flex flex-col">
+              <h1 className="mb-10 capitalize tracking-wide text-center text-2xl font-medium ml-[150px]">
+                Reset password
+              </h1>
               <div className="flex items-center mb-4">
                 <label className="w-[200px]">Password :</label>
                 <input
@@ -37,7 +40,7 @@ const ResetPassword = () => {
                   className="px-3 py-2 border border-gray-300 rounded w-2/3"
                 />
               </div>
-              <button className="w-2/3 rounded px-4 py-2 bg-blue-400 text-white mt-4 ml-[120px]">
+              <button className="w-2/3 md:w-2/4 rounded px-4 py-2 bg-blue-400 text-white mt-4 ml-auto mr-[10px] xl:mr-[0] lg:mr-[30px] md:mr-[0]">
                 Submit
               </button>
             </div>

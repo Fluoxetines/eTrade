@@ -2,6 +2,7 @@ import User from "../models/userModels.js";
 import express from "express";
 import bcrypt from "bcryptjs";
 import { generateToken, isAdmin, isAuth } from "../helpers/auth.js";
+import sendEmailReset from "../helpers/sendEmail.js";
 
 const userController = express.Router();
 
@@ -48,7 +49,7 @@ userController.post("/signin", async (req, res) => {
 // get all user
 
 userController.get("/", async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find();
   res.send(users);
 });
 
@@ -76,6 +77,45 @@ userController.delete("/:id", async (req, res) => {
     res.send({ message: "user Deleted" });
   } else {
     res.status(404).send({ message: "User not found !" });
+  }
+});
+
+// forgot password user
+
+userController.post("/forgot", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      res
+        .status(400)
+        .send({ message: "This email is not register in our system" });
+    }
+
+    const token = generateToken(user);
+    const url = `http://localhost:3000/auth/reset-password/${token}`;
+    const name = user.name;
+    sendEmailReset(email, url, "Reset your password", name);
+    res
+      .status(200)
+      .send({ message: "Re-send the password, please check your email." });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+// reset password user
+
+userController.post("/reset-password", isAuth, async (req, res) => {
+  try {
+    const { password } = req.body;
+    const hashPassword = bcrypt.hashSync(password);
+    await User.findOneAndUpdate({ password: hashPassword });
+    res.status(200).send({
+      message: "Password update successfully !",
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
 });
 

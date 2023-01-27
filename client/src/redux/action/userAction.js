@@ -1,13 +1,11 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { baseUrl } from "../../helpers/baseUrl";
 
 export const signup = (user) => async (dispatch) => {
   dispatch({ type: "REGISTER_USER_REQUEST" });
   try {
-    const res = await axios.post(
-      `http://localhost:5000/api/users/signup`,
-      user
-    );
+    const res = await axios.post(`${baseUrl}/users/signup`, user);
     console.log(res);
     dispatch({ type: "REGISTER_USER_SUCCESS" });
     toast.success("Register successfully !");
@@ -19,10 +17,7 @@ export const signup = (user) => async (dispatch) => {
 export const signin = (user) => async (dispatch) => {
   dispatch({ type: "LOGIN_USER_REQUEST" });
   try {
-    const res = await axios.post(
-      `http://localhost:5000/api/users/signin`,
-      user
-    );
+    const res = await axios.post(`${baseUrl}/users/signin`, user);
     console.log(res);
     dispatch({ type: "LOGIN_USER_SUCCESS", payload: res.data });
     localStorage.setItem("currentUser", JSON.stringify(res.data));
@@ -31,6 +26,24 @@ export const signin = (user) => async (dispatch) => {
   } catch (err) {
     dispatch({ type: "LOGIN_USER_FAIL", payload: err });
     toast.error("Email or password not correct !");
+  }
+};
+
+export const forgotPassword = (user) => async () => {
+  try {
+    const res = await axios.post(`${baseUrl}/users/forgot`, user);
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const resetPassword = (user) => async () => {
+  try {
+    const res = await axios.post(`${baseUrl}/users/reset-password`, user);
+    console.log(res);
+  } catch (err) {
+    console.log(err);
   }
 };
 
