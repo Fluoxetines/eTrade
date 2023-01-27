@@ -3,15 +3,14 @@ import Navbar from "../pages/Navbar";
 import resetImage from "../assets/reset-password.png";
 import { isEmpty, isLength, isMatch } from "../helpers/validate";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { resetPassword } from "../redux/action/userAction";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { baseUrl } from "../apis/baseUrl";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { id, token } = useParams();
 
   const handleResetPassword = async () => {
     if (isEmpty(password) || isEmpty(confirmPassword)) {
@@ -21,9 +20,18 @@ const ResetPassword = () => {
     } else if (isLength(password)) {
       toast.error("Password must be at least 8 characters");
     } else {
-      const user = { password, confirmPassword };
-      dispatch(resetPassword(user));
-      toast.success("Password reset successfully !");
+      try {
+        const resetPassword = await axios.post(
+          `${baseUrl}/users/reset-password/${id}/${token}`,
+          {
+            password,
+          }
+        );
+        console.log(resetPassword);
+        toast.success("Password reset successfully !");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

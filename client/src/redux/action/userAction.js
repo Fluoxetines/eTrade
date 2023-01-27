@@ -37,15 +37,6 @@ export const forgotPassword = (user) => async () => {
   }
 };
 
-export const resetPassword = (user) => async () => {
-  try {
-    const res = await axios.post(`${baseUrl}/users/reset-password`, user);
-    console.log(res);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("currentUser");
   localStorage.removeItem("cartItems");

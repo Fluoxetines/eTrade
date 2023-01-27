@@ -3,6 +3,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { generateToken, isAdmin, isAuth } from "../helpers/auth.js";
 import sendEmailReset from "../helpers/sendEmail.js";
+import jwt from "jsonwebtoken";
 
 const userController = express.Router();
 
@@ -93,7 +94,8 @@ userController.post("/forgot", async (req, res) => {
     }
 
     const token = generateToken(user);
-    const url = `http://localhost:3000/auth/reset-password/${token}`;
+
+    const url = `http://localhost:3000/auth/reset-password/${user.id}/${token}`;
     const name = user.name;
     sendEmailReset(email, url, "Reset your password", name);
     res
@@ -106,14 +108,16 @@ userController.post("/forgot", async (req, res) => {
 
 // reset password user
 
-userController.post("/reset-password", async (req, res) => {
+userController.post("/reset-password/:id/:token", async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
   try {
-    const { password } = req.body;
     const hashPassword = bcrypt.hashSync(password);
-    await User.findOneAndUpdate(
-      { email: req.body.email },
+    const newPassword = await User.findByIdAndUpdate(
+      { _id: id },
       { password: hashPassword }
     );
+    newPassword.save();
     res.status(200).send({
       message: "Password update successfully !",
     });
