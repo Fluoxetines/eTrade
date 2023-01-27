@@ -106,11 +106,14 @@ userController.post("/forgot", async (req, res) => {
 
 // reset password user
 
-userController.post("/reset-password", isAuth, async (req, res) => {
+userController.post("/reset-password", async (req, res) => {
   try {
     const { password } = req.body;
     const hashPassword = bcrypt.hashSync(password);
-    await User.findOneAndUpdate({ password: hashPassword });
+    await User.findOneAndUpdate(
+      { email: req.body.email },
+      { password: hashPassword }
+    );
     res.status(200).send({
       message: "Password update successfully !",
     });

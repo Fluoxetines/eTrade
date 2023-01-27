@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { baseUrl } from "../../helpers/baseUrl";
+import { baseUrl } from "../../apis/baseUrl";
 
 export const signup = (user) => async (dispatch) => {
   dispatch({ type: "REGISTER_USER_REQUEST" });
@@ -25,7 +25,6 @@ export const signin = (user) => async (dispatch) => {
     window.location.href = "/";
   } catch (err) {
     dispatch({ type: "LOGIN_USER_FAIL", payload: err });
-    toast.error("Email or password not correct !");
   }
 };
 

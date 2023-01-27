@@ -5,13 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { signup } from "../redux/action/userAction";
-import {
-  isEmail,
-  isEmpty,
-  isLength,
-  isMatch,
-} from "../components/helper/validate";
-import { baseUrl } from "../helpers/baseUrl";
+import { isEmail, isEmpty, isLength, isMatch } from "../helpers/validate";
+import { baseUrl } from "../apis/baseUrl";
 import axios from "axios";
 const Signup = () => {
   const [name, setName] = useState("");

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../pages/Navbar";
 import emailImage from "../assets/send-mail.png";
-import { baseUrl } from "../helpers/baseUrl";
+import { baseUrl } from "../apis/baseUrl";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { isEmail, isEmpty } from "../components/helper/validate";
+import { isEmail, isEmpty } from "../helpers/validate";
 import { useDispatch } from "react-redux";
 import { forgotPassword } from "../redux/action/userAction";
 const ForgotPassword = () => {

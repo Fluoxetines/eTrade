@@ -4,7 +4,7 @@ import signinImage from "../assets/signin.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signin } from "../redux/action/userAction";
-import { isEmail, isEmpty, isLength } from "../components/helper/validate";
+import { isEmail, isEmpty, isLength } from "../helpers/validate";
 import { toast } from "react-hot-toast";
 const Signin = () => {
   const { currentUser } = useSelector((state) => state.loginUserReducer);
@@ -35,8 +35,6 @@ const Signin = () => {
       navigate("/");
     }
   }, [navigate]);
-
-  console.log(password);
 
   return (
     <>
