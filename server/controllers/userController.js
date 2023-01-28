@@ -2,7 +2,7 @@ import User from "../models/userModels.js";
 import express from "express";
 import bcrypt from "bcryptjs";
 import { generateToken, isAdmin, isAuth } from "../helpers/auth.js";
-import sendEmailReset from "../helpers/sendEmail.js";
+import { sendEmailActive, sendEmailReset } from "../helpers/sendEmail.js";
 import jwt from "jsonwebtoken";
 
 const userController = express.Router();
@@ -121,6 +121,51 @@ userController.post("/reset-password/:id/:token", async (req, res) => {
     res.status(200).send({
       message: "Password update successfully !",
     });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+// active account
+
+userController.post("/active-account", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    const token = generateToken(user);
+
+    if (!user) {
+      res
+        .status(400)
+        .send({ message: "This email is not register in our system" });
+    }
+    const url = `http://localhost:3000/auth/active-account/${user.id}/${token}`;
+    const name = user.name;
+    sendEmailActive(email, url, "Active Account", name);
+    res
+      .status(200)
+      .send({ message: "Email send successfully, please check your email." });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+userController.get("/active-account/:id/:token", async (req, res) => {
+  const { id } = req.params;
+  try {
+    User.findByIdAndUpdate(id, { $set: { isActive: true } })
+      .exec()
+      .then((user) => {
+        if (!user) {
+          res.status(500).send({ message: err.message });
+        }
+        res.status(200).send({
+          message: "Active your account successfully!",
+        });
+      })
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
+      });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }

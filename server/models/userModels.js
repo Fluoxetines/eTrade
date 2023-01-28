@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     image: { type: Object, default: "../uploads/default-avatar.png" },
     role: { type: String, default: "user" },
+    isActive: { type: Boolean, default: false },
   },
   {
     timestamps: true,
