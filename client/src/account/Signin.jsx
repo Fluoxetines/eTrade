@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../pages/Navbar";
+import Navbar from "../components/Navbar";
 import signinImage from "../assets/signin.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

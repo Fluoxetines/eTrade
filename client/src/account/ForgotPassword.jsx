@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../pages/Navbar";
+import Navbar from "../components/Navbar";
 import emailImage from "../assets/send-mail.png";
 import { baseUrl } from "../apis/baseUrl";
 import axios from "axios";

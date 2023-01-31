@@ -19,7 +19,7 @@ const Navbar = () => {
     };
   }, []);
   return (
-    <div className={!navState ? "bg-white" : "fixed left-0 right-0 z-20"}>
+    <div className={!navState ? "bg-transparent" : "fixed left-0 right-0 z-20"}>
       <div className="container">
         <div className="bg-white px-[40px] rounded-[10px] shadow-xl flex items-center">
           <div className="flex justify-between items-center w-full">

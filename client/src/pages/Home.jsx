@@ -1,12 +1,14 @@
 import React from "react";
 import Hero from "./Hero";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
     <>
-      <Navbar />
-      <Hero />
+      <div className="bg-[#f9f3f0]">
+        <Navbar />
+        <Hero />
+      </div>
     </>
   );
 };

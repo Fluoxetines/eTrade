@@ -501,3 +501,39 @@ body {
 .slick-dots {
   z-index: 10;
 }
+
+.slick-dots li {
+  margin: 0 5px;
+  height: 4px;
+  width: 24px;
+}
+
+.slick-dots .slick-active {
+  width: 34px;
+}
+
+.slick-dots li button {
+  height: 4px;
+  width: 24px;
+  border-radius: 6px;
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.5;
+}
+
+.slick-dots .slick-active button {
+  width: 34px;
+  background-color: #ff497c;
+  opacity: 1;
+}
+
+.slick-dots li button::before {
+  display: none;
+}

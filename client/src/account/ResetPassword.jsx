@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../pages/Navbar";
+import Navbar from "../components/Navbar";
 import resetImage from "../assets/reset-password.png";
 import { isEmpty, isLength, isMatch } from "../helpers/validate";
 import { toast } from "react-hot-toast";
