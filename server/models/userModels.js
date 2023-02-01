@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema(
       required: [true, "Pease Enter Your Password"],
       minLength: [8, "Password should be greater than 8 characters"],
     },
-    image: { type: Object, default: "../uploads/default-avatar.png" },
+    image: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dmxmvx5bk/image/upload/v1675170954/eTrade/avatar/icon-256x256-removebg-preview_exu0sw.png",
+    },
     role: { type: String, default: "user" },
     isActive: { type: Boolean, default: false },
   },

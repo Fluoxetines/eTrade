@@ -10,6 +10,7 @@ const Hero = () => {
     arrows: false,
     speed: 1000,
     slidesToShow: 1,
+    autoplay: true,
   };
   return (
     <div className="py-[90px]">
