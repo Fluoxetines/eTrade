@@ -10,10 +10,11 @@ const userController = express.Router();
 // sign up
 
 userController.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, address } = req.body;
   const newUser = new User({
     name: name,
     email: email,
+    address: address,
     password: bcrypt.hashSync(password),
   });
   const user = await newUser.save();
@@ -21,7 +22,7 @@ userController.post("/signup", async (req, res) => {
     _id: user._id,
     name: user.name,
     email: user.email,
-    password: user.password,
+    address: user.address,
     role: user.role,
     token: generateToken(user),
   });
@@ -37,7 +38,8 @@ userController.post("/signin", async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        password: user.password,
+        image: user.image,
+        address: user.address,
         role: user.role,
         token: generateToken(user),
       });
@@ -67,7 +69,7 @@ userController.get("/:id", async (req, res) => {
 
 // delete user
 
-userController.delete("/:id", async (req, res) => {
+userController.delete("/:id", isAdmin, isAuth, async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
     if (user.email === "longdeptrai@gmail.com") {

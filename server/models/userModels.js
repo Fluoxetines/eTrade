@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
         "https://res.cloudinary.com/dmxmvx5bk/image/upload/v1675170954/eTrade/avatar/icon-256x256-removebg-preview_exu0sw.png",
     },
     role: { type: String, default: "user" },
+    address: { type: String, default: "" },
     isActive: { type: Boolean, default: false },
   },
   {

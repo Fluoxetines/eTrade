@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import singupImage from "../assets/signup.png";
 import { useDispatch } from "react-redux";
@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { signup } from "../redux/action/userAction";
 import { isEmail, isEmpty, isLength, isMatch } from "../helpers/validate";
-import { baseUrl } from "../apis/baseUrl";
-import axios from "axios";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,7 +13,6 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
 
   const handleSignUp = () => {
     if (isEmpty(name) || isEmpty(password)) {
@@ -26,8 +23,6 @@ const Signup = () => {
       toast.error("Password must be at least 8 characters");
     } else if (!isMatch(password, confirmPassword)) {
       toast.error("Password did not match.");
-    } else if (users.find((user) => user.email === email)) {
-      toast.error("This email address is register in our system");
     } else {
       const user = {
         name,
@@ -38,19 +33,6 @@ const Signup = () => {
       navigate("/signin");
     }
   };
-
-  const fetchUser = async () => {
-    try {
-      const { data } = await axios.get(`${baseUrl}/users`);
-      setUsers(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return (
     <>

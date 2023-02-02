@@ -25,6 +25,7 @@ export const signin = (user) => async (dispatch) => {
     window.location.href = "/";
   } catch (err) {
     dispatch({ type: "LOGIN_USER_FAIL", payload: err });
+    toast.error("Email or password not correct !");
   }
 };
 

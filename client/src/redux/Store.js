@@ -9,7 +9,9 @@ const finalReducer = combineReducers({
   loginUserReducer: loginUserReducer,
 });
 
-const currentUser = localStorage.getItem("currentUser");
+const currentUser = localStorage.getItem("currentUser")
+  ? JSON.parse(localStorage.getItem("currentUser"))
+  : null;
 
 const initialState = {
   loginUserReducer: {
