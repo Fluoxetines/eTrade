@@ -1,41 +1,28 @@
-import jwt from "jsonwebtoken";
+const ErrorHandler = require("../utils/errorHandler");
+const jwt = require("jsonwebtoken");
 
-export const generateToken = (user) => {
-  return jwt.sign(
-    {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "30m",
-    }
-  );
-};
+exports.isAuthenticated = async (req, res, next) => {
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  if (!authHeader?.startsWith("Bearer"))
+    return next(new ErrorHandler("Unauthorizated", 401));
 
-export const isAuth = (req, res, next) => {
-  const token = req.header("authorization");
-  if (!token)
-    return res.status(401).send("Access denied. Not authenticated...");
-  try {
-    const jwtSecretKey = process.env.JWT_SECRET;
-    const decoded = jwt.verify(token, jwtSecretKey);
+  const token = authHeader.split(" ")[1];
 
-    req.user = decoded;
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) return next(new ErrorHandler("Forbidden", 403));
+    req.userInfo = decoded.UserInfo;
     next();
-  } catch (ex) {
-    res.status(400).send("Invalid auth token...");
-  }
+  });
 };
 
-export const isAdmin = (req, res, next) => {
-  isAuth(req, res, () => {
-    if (req.user.role === "admin") {
-      next();
-    } else {
-      res.status(403).send("Access denied. Not authorized...");
-    }
-  });
+exports.authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req?.userInfo?.roles) return next(ErrorHandler("Unauthorized", 401));
+    const rolesArray = [...allowedRoles];
+    const result = req.userInfo.roles
+      .map((role) => rolesArray.includes(role))
+      .find((val) => val === true);
+    if (!result) return next(new ErrorHandler("Unauthorized", 401));
+    next();
+  };
 };

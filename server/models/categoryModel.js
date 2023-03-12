@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 
-const brandSchema = new mongoose.Schema(
+const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please enter brand name."],
+      required: [true, "Please enter category name."],
       trim: true,
-      unique: [true, "This brand is exists."],
+      unique: [true, "This category is exists."],
     },
     description: {
       type: String,
-      required: [true, "Please enter brand description."],
+      required: [true, "Please enter category description."],
     },
     addedBy: {
       type: mongoose.Schema.ObjectId,
@@ -27,4 +27,4 @@ const brandSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Brand", brandSchema);
+module.exports = mongoose.model("Category", categorySchema);

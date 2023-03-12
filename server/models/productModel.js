@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
   {
@@ -38,6 +38,25 @@ const productSchema = new mongoose.Schema(
       ref: "Store",
       required: [true, "Please select a store."],
     },
+    localShipmentPolicy: {
+      type: String,
+      required: [true, "Please select a local shipment policy."],
+      default: "standard",
+      enum: ["free", "standard", "custom"],
+    },
+    customLocalShipmentPolicy: {
+      type: Number,
+    },
+    internationalShipmentPolicy: {
+      type: String,
+      required: [true, "Please select a international shipment policy."],
+      default: "standard",
+      enum: ["free", "standard", "custom"],
+    },
+    customInternationalShipmentPolicy: {
+      type: Number,
+    },
+    weight: { type: Number, default: 1 },
     ratings: { type: Number, default: 0 },
     reviews: [
       {
@@ -67,5 +86,4 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-const Product = mongoose.model("Product", productSchema);
-export default Product;
+module.exports = mongoose.model("Product", productSchema);
